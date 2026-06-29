@@ -5,14 +5,10 @@ from google import genai
 from google.genai import types
 from config import API_KEY
 
-# ----------------------------
-# Gemini Client
-# ----------------------------
+
 client = genai.Client(api_key=API_KEY)
 
-# ----------------------------
-# Chat History File
-# ----------------------------
+
 HISTORY_FILE = "chat_history.json"
 
 
@@ -32,9 +28,7 @@ def save_history(messages):
         json.dump(messages, file, indent=4, ensure_ascii=False)
 
 
-# ----------------------------
-# Streamlit Page
-# ----------------------------
+
 st.set_page_config(
     page_title="Gemini AI Assistant",
     page_icon="🤖",
@@ -44,9 +38,7 @@ st.set_page_config(
 st.title("🤖 Gemini AI Assistant")
 st.caption("Powered by Google Gemini 2.5 Flash")
 
-# ----------------------------
-# Sidebar
-# ----------------------------
+
 st.sidebar.title("Gemini AI Assistant")
 
 st.sidebar.success("🧠 Conversation Memory Enabled")
@@ -55,9 +47,7 @@ st.sidebar.success("🌐 Google Search Enabled")
 st.sidebar.markdown("---")
 st.sidebar.write("**Model:** Gemini 2.5 Flash")
 
-# ----------------------------
-# Load Chat History
-# ----------------------------
+
 if "messages" not in st.session_state:
     st.session_state.messages = load_history()
 
@@ -68,21 +58,17 @@ if st.sidebar.button("🗑️ Clear Chat"):
     save_history([])
     st.rerun()
 
-# ----------------------------
-# Display Previous Messages
-# ----------------------------
+
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# ----------------------------
-# Chat Input
-# ----------------------------
+
 prompt = st.chat_input("Ask me anything...")
 
 if prompt:
 
-    # Save user message
+   
     st.session_state.messages.append(
         {
             "role": "user",
@@ -95,9 +81,7 @@ if prompt:
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # ----------------------------
-    # Build Conversation
-    # ----------------------------
+   
     conversation = []
 
     for msg in st.session_state.messages:
@@ -115,9 +99,7 @@ if prompt:
             }
         )
 
-    # ----------------------------
-    # Generate Gemini Response
-    # ----------------------------
+  
     with st.chat_message("assistant"):
 
         with st.spinner("Thinking..."):
